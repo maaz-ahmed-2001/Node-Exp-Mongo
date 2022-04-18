@@ -1,6 +1,14 @@
 const express = require("express")
 const app = express()
 const router = express.Router()
+const mongoose = require("mongoose")
+mongoose.connect("mongodb+srv://maaz:azamhamed0@cluster0.biaxw.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",{
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}).then(()=>{
+    console.log("connected");
+})
+
 
 // app.get("/", (req,res)=>{
 //     res.sendFile(__dirname+"/home.html")
@@ -22,6 +30,10 @@ app.get("/profile/:name",(req,res)=>{
 });
 app.get("/about",(req,res)=>{
     res.render("About")
+})
+app.get("/login",(req,res)=>{
+    res.render("Login")
+    console.log(req.query);
 })
 app.get("/",(req,res)=>{
     res.render("Home")
