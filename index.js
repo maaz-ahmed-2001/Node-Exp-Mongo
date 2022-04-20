@@ -77,6 +77,29 @@ app.post("/users",jsonParser,(req,res)=>{
     data.save().then((rest)=>res.json(rest)).catch((e)=>console.log(e))
 })
 
+// app.delete("/delusers/:id",(req,res)=>{
+//     // res.json(req.params)
+//         User.deleteOne({_id:req.params.id}).then((result)=>{
+//             res.status(200).json(result)
+//         }).catch((err)=>console.log(err))
+// })
+
+// app.put("/putuser/:id",jsonParser,(req,res)=>{
+//     User.findOneAndUpdate(
+//         {_id:req.params.id},
+//         {$set:{name:req.body.name}}
+        
+//         ).then((result)=>{
+//         res.status(200).json(result)
+//     }).catch((err)=>console.log(err))
+// })
+
+app.get("/search/:name",(req,res)=>{
+    var regex = new RegExp(req.params.name,"i")
+    User.find({name:regex}).then((resl)=>{
+        res.status(200).json(resl)
+    }).catch((err)=>console.log(err))
+})
 
 
 app.listen(4500,()=>{
