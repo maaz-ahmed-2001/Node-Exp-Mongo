@@ -6,7 +6,7 @@ const bodyParser = require("body-parser")
 const encodedUrl = bodyParser.urlencoded()
 const jsonParser = bodyParser.json()
 const mongoose = require("mongoose")
-mongoose.connect("mongodb+srv://maaz:azamhamed0@cluster0.biaxw.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",{
+mongoose.connect("mongodb+srv://maaz:<password>0@cluster0.biaxw.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",{
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(()=>{
