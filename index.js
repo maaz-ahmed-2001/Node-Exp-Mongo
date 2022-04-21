@@ -17,6 +17,7 @@ mongoose.connect("mongodb+srv://maaz:<password>0@cluster0.biaxw.mongodb.net/myFi
     console.log("connected");
 })
 
+
 app.use(cors())
 // const data = new User({
 //     _id: new mongoose.Types.ObjectId(),
