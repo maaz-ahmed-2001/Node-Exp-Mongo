@@ -9,8 +9,8 @@ const app = express()
 const router = express.Router()
 const encodedUrl = bodyParser.urlencoded()
 const jsonParser = bodyParser.json()
-
-mongoose.connect("mongodb+srv://maaz:azamhamed0@cluster0.biaxw.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",{
+const mongoose = require("mongoose")
+mongoose.connect("mongodb+srv://maaz:<password>0@cluster0.biaxw.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",{
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(()=>{
@@ -115,7 +115,6 @@ app.get("/search/:email",(req,res)=>{
         res.status(200).json(resl)
     }).catch((err)=>console.log(err))
 })
-
 
 app.listen(4500,()=>{
     console.log("server started at localhost:4500");
