@@ -1,11 +1,15 @@
-const express = require("express")
+import express from "express"
+import User from "./model/user.js"
+import bodyParser from "body-parser"
+import cors from "cors"
+import mongoose from "mongoose"
+
+
 const app = express()
 const router = express.Router()
-const User = require("./model/user")
-const bodyParser = require("body-parser")
 const encodedUrl = bodyParser.urlencoded()
 const jsonParser = bodyParser.json()
-const mongoose = require("mongoose")
+
 mongoose.connect("mongodb+srv://maaz:azamhamed0@cluster0.biaxw.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",{
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -13,7 +17,7 @@ mongoose.connect("mongodb+srv://maaz:azamhamed0@cluster0.biaxw.mongodb.net/myFir
     console.log("connected");
 })
 
-
+app.use(cors())
 // const data = new User({
 //     _id: new mongoose.Types.ObjectId(),
 //     name: "Rez Bhai",
@@ -61,11 +65,21 @@ mongoose.connect("mongodb+srv://maaz:azamhamed0@cluster0.biaxw.mongodb.net/myFir
 //     console.log(req.body);
 // })
 
-// app.get("/users",(req,res)=>{
-//     User.find().select("email").then((data)=>{
-//         res.status(201).json(data)
-//     })
-// })
+app.get("/users/:page/:perPage",(req,res)=>{
+    let {page , perPage } = req.params
+    console.log(page,perPage);
+    
+    // page = the current pagination no. and perPage = items per page or limit
+    // skip() skips the no. of entries in the db for e.g skip(2) will skip the starting 2 entries in db
+    // if page = 1 and perPage = 3 then we subtract 1 from page so that it will become zero and it zeros the perPage also and no entries will be skipped.
+    // if page is 2 and perPage 3 then (2-1)*3 = 3 then 3 entries will be skipped on page 2 the way as it should work.
+
+    let skipCount = (Number(page) - 1) * perPage
+    console.log(skipCount);
+    User.find().limit(perPage).skip(skipCount).then((data)=>{
+        res.status(201).json(data)
+    })
+})
 
 app.post("/users",jsonParser,(req,res)=>{
     const data = new User({
@@ -94,9 +108,10 @@ app.post("/users",jsonParser,(req,res)=>{
 //     }).catch((err)=>console.log(err))
 // })
 
-app.get("/search/:name",(req,res)=>{
-    var regex = new RegExp(req.params.name,"i")
-    User.find({name:regex}).then((resl)=>{
+app.get("/search/:email",(req,res)=>{
+    var regex = new RegExp(req.params.email,"i")
+    console.log(req.params)
+    User.find({email:regex}).limit(2).then((resl)=>{
         res.status(200).json(resl)
     }).catch((err)=>console.log(err))
 })
